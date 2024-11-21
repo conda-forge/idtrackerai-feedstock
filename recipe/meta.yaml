@@ -1,14 +1,15 @@
 {% set name = "idtrackerai" %}
-{% set version = "5.2.7" %}
+{% set version = "5.2.12" %}
 {% set python_min = "3.10" %}
 
 package:
   name: {{ name|lower }}
   version: {{ version }}
+{% set python_min = "3.10" %}
 
 source:
   url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/idtrackerai-{{ version }}.tar.gz
-  sha256: 1efb7336540979a6e2c7bfb8d3d4e557513da5a0e63106371f62a33ce86b9ec1
+  sha256: a1730dafb624d3f116ed5723e149f3469971e0d8e22bb32cdb73241780fc69dd
 
 build:
   entry_points:
@@ -33,12 +34,14 @@ requirements:
     - rich >=13.3.1
     - h5py >=3.8.0
     - scipy >=1.10.0
-    - opencv >=4.7.0
+    - opencv >=4.10.0
     - pyqt >=5.15.9
     - qtpy >=2.3.1
     - superqt >=0.4.1
     - toml >=0.10.2
     - matplotlib-base >=3.7.0
+    - packaging
+
 
 test:
   imports:
