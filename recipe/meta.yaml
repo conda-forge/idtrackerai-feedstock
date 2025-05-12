@@ -1,5 +1,5 @@
 {% set name = "idtrackerai" %}
-{% set version = "5.2.12" %}
+{% set version = "6.0.0" %}
 {% set python_min = "3.10" %}
 
 package:
@@ -9,7 +9,7 @@ package:
 
 source:
   url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/idtrackerai-{{ version }}.tar.gz
-  sha256: a1730dafb624d3f116ed5723e149f3469971e0d8e22bb32cdb73241780fc69dd
+  sha256: ceb2b5d6729f8a1539ae256349a87f6efc6f65fd3b5b3eb3093dd98cd31754a9
 
 build:
   entry_points:
