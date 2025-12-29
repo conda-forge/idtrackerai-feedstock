@@ -4,3 +4,8 @@ github:
 conda_build:
   error_overlinking: true
 conda_forge_output_validation: true
+# Workaround for https://github.com/conda-forge/opencv-feedstock/issues/493
+azure:
+  settings_osx:
+    pool:
+      vmImage: macos-14
