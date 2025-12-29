@@ -1,24 +1,25 @@
 {% set name = "idtrackerai" %}
-{% set version = "5.2.12" %}
+{% set version = "6.0.13" %}
 {% set python_min = "3.10" %}
 
 package:
   name: {{ name|lower }}
   version: {{ version }}
-{% set python_min = "3.10" %}
 
 source:
   url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/idtrackerai-{{ version }}.tar.gz
-  sha256: a1730dafb624d3f116ed5723e149f3469971e0d8e22bb32cdb73241780fc69dd
+  sha256: 276bdda13cc6013ed0700f280a36a687a3cf52989d9f439fc9af300fcbded879
 
 build:
   entry_points:
     - idtrackerai_test = idtrackerai.start.__main__:general_test
     - idtrackerai = idtrackerai.start.__main__:main
-    - idtrackerai_validate = idtrackerai.validator.__main__:main
-    - idtrackerai_video = idtrackerai.video.main:main
-    - idtrackerai_csv = idtrackerai.base.postprocess.trajectories_to_csv:main
-    - idmatcherai = idtrackerai.idmatcherai.main:main
+    - idtrackerai_validate = idtrackerai.extra_tools.validator.__init__:idtrackerai_validate_entrypoint
+    - idtrackerai_video = idtrackerai.extra_tools.video_generator.__init__:idtrackerai_video_entrypoint
+    - idtrackerai_format = idtrackerai.utils.trajectories_io:idtrackerai_format_entrypoint
+    - idtrackerai_inspect_clusters = idtrackerai.extra_tools.cluster_inspection:idtrackerai_inspect_clusters_entrypoint
+    - idtrackerai_background = idtrackerai.base.animals_detection.segmentation:idtrackerai_background_entrypoint
+    - idmatcherai = idtrackerai.extra_tools.idmatcherai:idmatcherai_entrypoint
   noarch: python
   script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
   number: 0
@@ -30,28 +31,34 @@ requirements:
     - pip
   run:
     - python >={{ python_min }}
-    - numpy >=1.24.2
-    - rich >=13.3.1
-    - h5py >=3.8.0
-    - scipy >=1.10.0
-    - opencv >=4.10.0
-    - pyqt >=5.15.9
-    - qtpy >=2.3.1
-    - superqt >=0.4.1
+    - numpy >=1.26.4
+    - rich >=13.5.1
+    - h5py >=3.10.0
+    - scipy >=1.15.0
+    - opencv >=4.10.0.84
+    - pyqt6 >=6.7.0
+    - qtpy >=2.4.0
+    - superqt >=0.7.3
     - toml >=0.10.2
     - matplotlib-base >=3.7.0
     - packaging
-
+    - psutil >=6.1.0
+    - scikit-learn >=1.6.0
+    - requests >=2.26.0
+    - deprecated >=1.2.13
 
 test:
   imports:
     - idtrackerai
   commands:
+    - pip check
     - idtrackerai_test --help
     - idtrackerai --help
     - idtrackerai_validate --help
     - idtrackerai_video --help
-    - idtrackerai_csv --help
+    - idtrackerai_format --help
+    - idtrackerai_inspect_clusters --help
+    - idtrackerai_background --help
     - idmatcherai --help
   requires:
     - python {{ python_min }}
