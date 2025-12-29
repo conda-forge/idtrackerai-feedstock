@@ -63,6 +63,8 @@ test:
   requires:
     - python {{ python_min }}
     - pip
+    - pytorch
+    - torchvision
 
 about:
   home: https://idtracker.ai/latest/
