@@ -1,23 +1,34 @@
 {
-  "$schema": "https://schemas.conda.org/menuinst-1-1-0.schema.json",
+  "$id": "https://schemas.conda.org/menuinst-1-1-0.schema.json",
   "menu_name": "idtrackerai",
   "menu_items": [
     {
       "name": "idtrackerai",
       "description": "Tracking all individuals in large collectives of unmarked animals",
-      "command": ["{{ PYTHON }}", "-m", "idtrackerai.start"],
+      "command": [
+        "{{ PYTHON }}",
+        "-m",
+        "idtrackerai.start"
+      ],
       "icon": "{{ MENU_DIR }}/idtrackerai.{{ ICON_EXT }}",
       "activate": true,
       "terminal": false,
       "platforms": {
         "linux": {
-          "Categories": ["Science"]
+          "precommand": "cd \"$(mktemp -d)\"",
+          "Categories": [
+            "Science"
+          ]
         },
         "osx": {
-          "CFBundleIdentifier": "ai.idtracker.idtrackerai"
+          "precommand": "cd \"$(mktemp -d)\"",
+          "CFBundleIdentifier": "ai.idtracker.idtrackerai",
+          "CFBundleName": "idtrackerai",
+          "CFBundleDisplayName": "idtrackerai"
         },
         "win": {
-          "desktop": true
+          "desktop": true,
+          "precommand": "cd /d \"%TEMP%\""
         }
       }
     }
