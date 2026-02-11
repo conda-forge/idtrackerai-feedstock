@@ -1,0 +1,90 @@
+schema_version: 1
+
+context:
+  name: idtrackerai
+  version: 6.0.13
+  python_min: 3.10
+
+package:
+  name: ${{ name|lower }}
+  version: ${{ version }}
+
+source:
+  url: https://pypi.org/packages/source/${{ name[0] }}/${{ name }}/idtrackerai-${{ version }}.tar.gz
+  sha256: 276bdda13cc6013ed0700f280a36a687a3cf52989d9f439fc9af300fcbded879
+
+build:
+  number: 2
+  noarch: python
+  script:
+    - $PYTHON -m pip install . -vv --no-deps --no-build-isolation
+    - mkdir -p "$PREFIX/Menu"
+    - cp "$RECIPE_DIR/menu.json" "$PREFIX/Menu/${PKG_NAME}_menu.json"
+    - cp "$RECIPE_DIR/idtrackerai.png" "$PREFIX/Menu/idtrackerai.png"
+    - cp "$RECIPE_DIR/idtrackerai.icns" "$PREFIX/Menu/idtrackerai.icns"
+    - cp "$RECIPE_DIR/idtrackerai.ico" "$PREFIX/Menu/idtrackerai.ico"
+  python:
+    entry_points:
+      - idtrackerai_test = idtrackerai.start.__main__:general_test
+      - idtrackerai = idtrackerai.start.__main__:main
+      - idtrackerai_validate = idtrackerai.extra_tools.validator.__init__:idtrackerai_validate_entrypoint
+      - idtrackerai_video = idtrackerai.extra_tools.video_generator.__init__:idtrackerai_video_entrypoint
+      - idtrackerai_format = idtrackerai.utils.trajectories_io:idtrackerai_format_entrypoint
+      - idtrackerai_inspect_clusters = idtrackerai.extra_tools.cluster_inspection:idtrackerai_inspect_clusters_entrypoint
+      - idtrackerai_background = idtrackerai.base.animals_detection.segmentation:idtrackerai_background_entrypoint
+      - idmatcherai = idtrackerai.extra_tools.idmatcherai:idmatcherai_entrypoint
+
+requirements:
+  host:
+    - python ${{ python_min }}.*
+    - setuptools
+    - pip
+  run:
+    - python >=${{ python_min }}
+    - numpy >=1.26.4
+    - rich >=13.5.1
+    - h5py >=3.10.0
+    - scipy >=1.15.0
+    - opencv >=4.10.0.84
+    - pyqt6 >=6.7.0
+    - qtpy >=2.4.0
+    - superqt >=0.7.3
+    - toml >=0.10.2
+    - matplotlib-base >=3.7.0
+    - packaging
+    - psutil >=6.1.0
+    - scikit-learn >=1.6.0
+    - requests >=2.26.0
+    - deprecated >=1.2.13
+
+tests:
+  - python:
+      imports:
+        - idtrackerai
+      pip_check: true
+      python_version: ${{ python_min }}.*
+  - requirements:
+      run:
+        - python ${{ python_min }}
+        - pip
+        - pytorch
+        - torchvision
+    script:
+      - idtrackerai_test --help
+      - idtrackerai --help
+      - idtrackerai_validate --help
+      - idtrackerai_video --help
+      - idtrackerai_format --help
+      - idtrackerai_inspect_clusters --help
+      - idtrackerai_background --help
+      - idmatcherai --help
+
+about:
+  summary: Idtracker.ai tracks up to 100 unmarked animals from videos recorded in laboratory conditions using artificial intelligence. Free and open source.
+  license: GPL-2.0-or-later
+  license_file: LICENSE
+  homepage: https://idtracker.ai/latest/
+
+extra:
+  recipe-maintainers:
+    - roaldarbol
