@@ -65,7 +65,7 @@ tests:
       python_version: ${{ python_min }}.*
   - requirements:
       run:
-        - python ${{ python_min }}
+        - python ${{ python_min }}.*
         - pip
         - pytorch
         - torchvision
