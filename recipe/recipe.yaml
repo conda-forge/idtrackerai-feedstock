@@ -2,7 +2,7 @@ schema_version: 1
 
 context:
   name: idtrackerai
-  version: 6.0.13
+  version: "6.0.14"
   python_min: 3.10
 
 package:
@@ -11,10 +11,10 @@ package:
 
 source:
   url: https://pypi.org/packages/source/${{ name[0] }}/${{ name }}/idtrackerai-${{ version }}.tar.gz
-  sha256: 276bdda13cc6013ed0700f280a36a687a3cf52989d9f439fc9af300fcbded879
+  sha256: 5fe2f3be1a4af95e18d2712956aa00f39a93af1349c8be0e34231720fa31c8c4
 
 build:
-  number: 3
+  number: 0
   noarch: python
   script:
     - $PYTHON -m pip install . -vv --no-deps --no-build-isolation
